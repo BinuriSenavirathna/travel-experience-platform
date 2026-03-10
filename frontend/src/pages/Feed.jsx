@@ -1,35 +1,30 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import ListingCard from "../components/ListingCard";
+import {useEffect,useState} from "react"
+import axios from "axios"
+import ListingCard from "../components/ListingCard"
 
 function Feed(){
 
-  const [listings,setListings] = useState([]);
+ const [listings,setListings] = useState([])
 
-  useEffect(()=>{
+ useEffect(()=>{
 
-    axios.get("http://localhost:5000/api/listings")
-    .then(res=>{
-      setListings(res.data);
-    });
+ axios.get("http://localhost:5000/api/listings")
+ .then(res=>setListings(res.data))
 
-  },[]);
+ },[])
 
-  return(
+ return(
 
-    <div>
+ <div>
 
-      <h2>Travel Experiences</h2>
+ {listings.map(l=>(
+  <ListingCard key={l._id} listing={l}/>
+ ))}
 
-      {listings.map((listing)=>(
-        <ListingCard
-          key={listing._id}
-          listing={listing}
-        />
-      ))}
+ </div>
 
-    </div>
-  );
+ )
+
 }
 
-export default Feed;
+export default Feed

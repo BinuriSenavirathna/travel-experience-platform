@@ -1,6 +1,6 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose"
 
-const ListingSchema = new mongoose.Schema({
+const listingSchema = new mongoose.Schema({
 
  title:String,
  location:String,
@@ -8,11 +8,11 @@ const ListingSchema = new mongoose.Schema({
  description:String,
  price:Number,
 
- user:{
- type:mongoose.Schema.Types.ObjectId,
- ref:"User"
+ creator:{
+  type:mongoose.Schema.Types.ObjectId,
+  ref:"User"
  }
 
 },{timestamps:true})
 
-module.exports = mongoose.model("Listing",ListingSchema)
+export default mongoose.model("Listing",listingSchema)

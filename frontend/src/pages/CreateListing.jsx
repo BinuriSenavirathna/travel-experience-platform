@@ -1,66 +1,60 @@
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import {useState} from "react"
+import axios from "axios"
+import {useNavigate} from "react-router-dom"
 
 function CreateListing(){
 
-  const [title,setTitle] = useState("");
-  const [location,setLocation] = useState("");
-  const [image,setImage] = useState("");
-  const [description,setDescription] = useState("");
-  const [price,setPrice] = useState("");
+ const navigate = useNavigate()
 
-  const navigate = useNavigate();
+ const [form,setForm] = useState({
+  title:"",
+  location:"",
+  image:"",
+  description:"",
+  price:""
+ })
 
-  const handleSubmit = async(e)=>{
+ const submit = async()=>{
 
-    e.preventDefault();
+ const token = localStorage.getItem("token")
 
-    await axios.post(
-      "http://localhost:5000/api/listings",
-      {title,location,image,description,price}
-    );
+ await axios.post(
+  "http://localhost:5000/api/listings",
+  form,
+  {headers:{Authorization:`Bearer ${token}`}}
+ )
 
-    navigate("/");
-  };
+ navigate("/feed")
 
-  return(
+ }
 
-    <form onSubmit={handleSubmit}>
+ return(
 
-      <h2>Create Listing</h2>
+ <div>
 
-      <input placeholder="Title"
-      onChange={(e)=>setTitle(e.target.value)} />
+ <input placeholder="Title"
+ onChange={(e)=>setForm({...form,title:e.target.value})}/>
 
-      <br/>
+ <input placeholder="Location"
+ onChange={(e)=>setForm({...form,location:e.target.value})}/>
 
-      <input placeholder="Location"
-      onChange={(e)=>setLocation(e.target.value)} />
+ <input placeholder="Image URL"
+ onChange={(e)=>setForm({...form,image:e.target.value})}/>
 
-      <br/>
+ <textarea placeholder="Description"
+ onChange={(e)=>setForm({...form,description:e.target.value})}/>
 
-      <input placeholder="Image URL"
-      onChange={(e)=>setImage(e.target.value)} />
+ <input placeholder="Price"
+ onChange={(e)=>setForm({...form,price:e.target.value})}/>
 
-      <br/>
+ <button onClick={submit}>
+ Create Listing
+ </button>
 
-      <textarea placeholder="Description"
-      onChange={(e)=>setDescription(e.target.value)} />
+ </div>
 
-      <br/>
+ )
 
-      <input placeholder="Price"
-      onChange={(e)=>setPrice(e.target.value)} />
-
-      <br/>
-
-      <button type="submit">
-        Create Listing
-      </button>
-
-    </form>
-  );
 }
 
-export default CreateListing;
+export default CreateListing

@@ -1,42 +1,41 @@
-import { useEffect,useState } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import {useParams} from "react-router-dom"
+import {useEffect,useState} from "react"
+import axios from "axios"
 
 function ListingDetail(){
 
-  const {id} = useParams();
+ const {id} = useParams()
 
-  const [listing,setListing] = useState(null);
+ const [listing,setListing] = useState(null)
 
-  useEffect(()=>{
+ useEffect(()=>{
 
-    axios.get(`http://localhost:5000/api/listings/${id}`)
-    .then(res=>{
-      setListing(res.data);
-    });
+ axios.get(`http://localhost:5000/api/listings/${id}`)
+ .then(res=>setListing(res.data))
 
-  },[id]);
+ },[])
 
-  if(!listing) return <p>Loading...</p>;
+ if(!listing) return <p>Loading...</p>
 
-  return(
+ return(
 
-    <div>
+ <div>
 
-      <h2>{listing.title}</h2>
+ <img src={listing.image} width="400"/>
 
-      <img src={listing.image} width="400"/>
+ <h2>{listing.title}</h2>
 
-      <p>{listing.location}</p>
+ <p>{listing.location}</p>
 
-      <p>{listing.description}</p>
+ <p>{listing.description}</p>
 
-      <p>Price: {listing.price}</p>
+ <p>Price: ${listing.price}</p>
 
-      <p>Creator: {listing.user?.name}</p>
+ <p>Creator: {listing.creator.name}</p>
 
-    </div>
-  );
+ </div>
+
+ )
 }
 
-export default ListingDetail;
+export default ListingDetail

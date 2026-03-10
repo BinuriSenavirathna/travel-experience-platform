@@ -1,33 +1,45 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import Navbar from "./components/Navbar"
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
+
+import Landing from "./pages/Landing"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Feed from "./pages/Feed"
 import CreateListing from "./pages/CreateListing"
 import ListingDetail from "./pages/ListingDetail"
+import Navbar from "./components/Navbar"
 
-function App() {
-  return (
-    <BrowserRouter>
+function Layout(){
 
-      <Navbar />
+ const location = useLocation()
 
-      <Routes>
+ const hideNavbar = ["/","/login","/register"]
 
-        <Route path="/" element={<Feed />} />
+ const showNavbar = !hideNavbar.includes(location.pathname)
 
-        <Route path="/login" element={<Login />} />
+ return(
+ <>
+ {showNavbar && <Navbar/>}
 
-        <Route path="/register" element={<Register />} />
+ <Routes>
 
-        <Route path="/create" element={<CreateListing />} />
+ <Route path="/" element={<Landing/>}/>
+ <Route path="/login" element={<Login/>}/>
+ <Route path="/register" element={<Register/>}/>
+ <Route path="/feed" element={<Feed/>}/>
+ <Route path="/create" element={<CreateListing/>}/>
+ <Route path="/listing/:id" element={<ListingDetail/>}/>
 
-        <Route path="/listing/:id" element={<ListingDetail />} />
+ </Routes>
+ </>
+ )
+}
 
-      </Routes>
-
-    </BrowserRouter>
-  )
+function App(){
+ return(
+ <BrowserRouter>
+ <Layout/>
+ </BrowserRouter>
+ )
 }
 
 export default App
