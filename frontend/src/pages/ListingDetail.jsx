@@ -1,46 +1,42 @@
-import { useEffect,useState } from "react"
-import axios from "axios"
-import { useParams } from "react-router-dom"
+import { useEffect,useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 function ListingDetail(){
 
-  const {id} = useParams()
+  const {id} = useParams();
 
-  const [listing,setListing] = useState(null)
+  const [listing,setListing] = useState(null);
 
   useEffect(()=>{
 
     axios.get(`http://localhost:5000/api/listings/${id}`)
     .then(res=>{
-      setListing(res.data)
-    })
+      setListing(res.data);
+    });
 
-  },[id])
+  },[id]);
 
-  if(!listing) return <p>Loading...</p>
+  if(!listing) return <p>Loading...</p>;
 
   return(
 
-    <div style={{padding:"40px"}}>
+    <div>
 
       <h2>{listing.title}</h2>
 
-      <img
-      src={listing.image}
-      style={{width:"400px"}}
-      />
+      <img src={listing.image} width="400"/>
 
-      <p><b>Location:</b> {listing.location}</p>
+      <p>{listing.location}</p>
 
       <p>{listing.description}</p>
 
-      <p><b>Price:</b> {listing.price}</p>
+      <p>Price: {listing.price}</p>
 
-      <p><b>Creator:</b> {listing.user?.name}</p>
+      <p>Creator: {listing.user?.name}</p>
 
     </div>
-
-  )
+  );
 }
 
-export default ListingDetail
+export default ListingDetail;

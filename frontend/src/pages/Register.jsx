@@ -1,60 +1,57 @@
-import { useState } from "react"
-import axios from "axios"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-function Register(){
+function Register() {
 
-  const [name,setName] = useState("")
-  const [email,setEmail] = useState("")
-  const [password,setPassword] = useState("")
+  const [name,setName] = useState("");
+  const [email,setEmail] = useState("");
+  const [password,setPassword] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const handleRegister = async()=>{
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
 
     await axios.post(
       "http://localhost:5000/api/auth/register",
       {name,email,password}
-    )
+    );
 
-    navigate("/login")
-  }
+    alert("User registered successfully");
 
-  return(
+    navigate("/login");
+  };
 
-    <div style={{padding:"40px"}}>
+  return (
+
+    <form onSubmit={handleSubmit}>
 
       <h2>Register</h2>
 
-      <input
-      placeholder="Name"
-      onChange={(e)=>setName(e.target.value)}
-      />
+      <input placeholder="Name"
+      onChange={(e)=>setName(e.target.value)} />
 
-      <br/><br/>
+      <br/>
 
-      <input
-      placeholder="Email"
-      onChange={(e)=>setEmail(e.target.value)}
-      />
+      <input placeholder="Email"
+      onChange={(e)=>setEmail(e.target.value)} />
 
-      <br/><br/>
+      <br/>
 
-      <input
+      <input type="password"
       placeholder="Password"
-      type="password"
-      onChange={(e)=>setPassword(e.target.value)}
-      />
+      onChange={(e)=>setPassword(e.target.value)} />
 
-      <br/><br/>
+      <br/>
 
-      <button onClick={handleRegister}>
+      <button type="submit">
         Register
       </button>
 
-    </div>
-
-  )
+    </form>
+  );
 }
 
-export default Register
+export default Register;

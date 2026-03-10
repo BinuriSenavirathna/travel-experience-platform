@@ -1,32 +1,30 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
 
-  return (
-    <div style={{
-      display:"flex",
-      justifyContent:"space-between",
-      padding:"15px",
-      background:"#222",
-      color:"white"
-    }}>
+  const navigate = useNavigate();
 
-      <h2>Travel Experiences</h2>
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
+  return (
+    <div style={{display:"flex",justifyContent:"space-between",padding:"10px",background:"#333",color:"white"}}>
+
+      <h2>Travel Platform</h2>
 
       <div>
+        <Link to="/" style={{color:"white",marginRight:"10px"}}>Feed</Link>
+        <Link to="/create" style={{color:"white",marginRight:"10px"}}>Create</Link>
+        <Link to="/login" style={{color:"white",marginRight:"10px"}}>Login</Link>
+        <Link to="/register" style={{color:"white",marginRight:"10px"}}>Register</Link>
 
-        <Link to="/" style={{marginRight:"10px",color:"white"}}>Feed</Link>
-
-        <Link to="/create" style={{marginRight:"10px",color:"white"}}>Create</Link>
-
-        <Link to="/login" style={{marginRight:"10px",color:"white"}}>Login</Link>
-
-        <Link to="/register" style={{color:"white"}}>Register</Link>
-
+        <button onClick={logout}>Logout</button>
       </div>
 
     </div>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

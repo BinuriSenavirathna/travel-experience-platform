@@ -1,20 +1,29 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
-function ListingCard({listing}) {
+// helper function outside component
+function timeAgo(date) {
+
+  const now = new Date().getTime();
+  const created = new Date(date).getTime();
+
+  const diff = now - created;
+
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+
+  if (hours < 1) return "Posted just now";
+
+  return `Posted ${hours} hours ago`;
+}
+
+function ListingCard({ listing }) {
 
   return (
 
-    <div style={{
-      border:"1px solid #ccc",
-      margin:"20px",
-      padding:"10px",
-      width:"300px"
-    }}>
+    <div style={{border:"1px solid gray",margin:"10px",padding:"10px"}}>
 
       <img
         src={listing.image}
-        alt="travel"
-        style={{width:"100%"}}
+        width="200"
       />
 
       <h3>{listing.title}</h3>
@@ -25,12 +34,15 @@ function ListingCard({listing}) {
 
       <p>By {listing.user?.name}</p>
 
+      <p>{timeAgo(listing.createdAt)}</p>
+
       <Link to={`/listing/${listing._id}`}>
         View Details
       </Link>
 
     </div>
-  )
+
+  );
 }
 
-export default ListingCard
+export default ListingCard;

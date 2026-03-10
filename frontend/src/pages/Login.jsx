@@ -1,29 +1,31 @@
-import { useState } from "react"
-import axios from "axios"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login(){
 
-  const [email,setEmail] = useState("")
-  const [password,setPassword] = useState("")
+  const [email,setEmail] = useState("");
+  const [password,setPassword] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const handleLogin = async()=>{
+  const handleLogin = async(e)=>{
+
+    e.preventDefault();
 
     const res = await axios.post(
       "http://localhost:5000/api/auth/login",
       {email,password}
-    )
+    );
 
-    localStorage.setItem("token",res.data.token)
+    localStorage.setItem("token",res.data.token);
 
-    navigate("/")
-  }
+    navigate("/");
+  };
 
   return(
 
-    <div style={{padding:"40px"}}>
+    <form onSubmit={handleLogin}>
 
       <h2>Login</h2>
 
@@ -32,23 +34,22 @@ function Login(){
       onChange={(e)=>setEmail(e.target.value)}
       />
 
-      <br/><br/>
+      <br/>
 
       <input
-      placeholder="Password"
       type="password"
+      placeholder="Password"
       onChange={(e)=>setPassword(e.target.value)}
       />
 
-      <br/><br/>
+      <br/>
 
-      <button onClick={handleLogin}>
+      <button type="submit">
         Login
       </button>
 
-    </div>
-
-  )
+    </form>
+  );
 }
 
-export default Login
+export default Login;
